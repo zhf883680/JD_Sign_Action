@@ -83,7 +83,7 @@ function sendNotificationIfNeed() {
 
   let regExpCheckCookie = new RegExp("Cookie失效", "g");
   let arr = desp.match(regExpCheckCookie);
-  if (arr.length > 10) {
+  if (arr.length > 20) {
     text = "京东签到_" + dateFormat() + "_Cookie失效!";
 
     const options = {
