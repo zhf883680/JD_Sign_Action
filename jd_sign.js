@@ -83,7 +83,7 @@ function sendNotificationIfNeed() {
 
   let regExpCheckCookie = new RegExp("Cookie失效", "g");
   let arr = desp.match(regExpCheckCookie);
-  if (arr.length > 20) {
+  if (arr != undefined && arr.length > 20) {
     text = "京东签到_" + dateFormat() + "_Cookie失效!";
 
     const options = {
@@ -109,11 +109,38 @@ function sendNotificationIfNeed() {
       console.log("通知发送失败，任务中断！")
       fs.writeFileSync(error_path, err, 'utf8')
     })
-  }
-  else{
+  } else {
     console.log("签到成功，任务结束！")
   }
 
+}
+
+function sendErrorMsg(desc) {
+
+  let SCKEY = push_key.replace(/[\r\n]/g, "");
+  const options = {
+    uri: `https://sc.ftqq.com/${SCKEY}.send`,
+    form: {
+      text: '脚本执行失败了',
+      desc
+    },
+    json: true,
+    method: 'POST'
+  }
+
+  rp.post(options).then(res => {
+    const code = res['errno'];
+    if (code == 0) {
+      console.log("通知发送成功，任务结束！")
+    } else {
+      console.log(res);
+      console.log("通知发送失败，任务中断！")
+      fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
+    }
+  }).catch((err) => {
+    console.log("通知发送失败，任务中断！")
+    fs.writeFileSync(error_path, err, 'utf8')
+  })
 }
 
 function main() {
@@ -132,6 +159,7 @@ function main() {
     // 4、发送推送
     sendNotificationIfNeed()
   }).catch((err) => {
+    sendErrorMsg(err);
     console.log('脚本文件下载失败，任务中断！');
     fs.writeFileSync(error_path, err, 'utf8')
   })
