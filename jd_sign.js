@@ -77,9 +77,9 @@ function sendNotificationIfNeed() {
   let desp = fs.readFileSync(result_path, "utf8")
 
   // 去除末尾的换行
-  let SCKEY = push_key.replace(/[\r\n]/g, "");
+  //let SCKEY = push_key.replace(/[\r\n]/g, "");
 
-
+  
 
   let regExpCheckCookie = new RegExp("Cookie失效", "g");
   let arr = desp.match(regExpCheckCookie);
@@ -87,10 +87,10 @@ function sendNotificationIfNeed() {
     text = "京东签到_" + dateFormat() + "_Cookie失效!";
 
     const options = {
-      uri: `https://sc.ftqq.com/${SCKEY}.send`,
+      uri: push_key,
       form: {
-        text,
-        desp
+        title:text,
+        body:desc
       },
       json: true,
       method: 'POST'
@@ -98,7 +98,7 @@ function sendNotificationIfNeed() {
 
     rp.post(options).then(res => {
       const code = res['errno'];
-      if (code == 0) {
+      if (code == 200) {
         console.log("通知发送成功，任务结束！")
       } else {
         console.log(res);
@@ -117,12 +117,12 @@ function sendNotificationIfNeed() {
 
 function sendErrorMsg(desc) {
 
-  let SCKEY = push_key.replace(/[\r\n]/g, "");
+  //let SCKEY = push_key.replace(/[\r\n]/g, "");
   const options = {
-    uri: `https://sc.ftqq.com/${SCKEY}.send`,
+    uri: push_key,
     form: {
-      text: '脚本执行失败了',
-      desc
+      title: '脚本执行失败了',
+      body:desc
     },
     json: true,
     method: 'POST'
@@ -130,7 +130,7 @@ function sendErrorMsg(desc) {
 
   rp.post(options).then(res => {
     const code = res['errno'];
-    if (code == 0) {
+    if (code == 200) {
       console.log("通知发送成功，任务结束！")
     } else {
       console.log(res);
