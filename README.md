@@ -26,13 +26,13 @@
 
 ## 使用用法
 * 点击右上角 `Fork` 项目；
-* `Settings` -> `Secrets` 中添加京东Cookie、Server酱SCKEY；
+* `Settings` -> `Secrets` 中添加京东Cookie、bark的url；
 	- `JD_COOKIE`：账号1Cookie
 	- `JD_DUAL_COOKIE`：账号2Cookie(选填)
-	- `PUSH_KEY`：Server酱SCKEY
+	- `PUSH_KEY`：bark的url
 * 点击`Star`，任务会自动执行，运行进度和结果可以在`Actions`页面查看；
 * 当任务运行完成时，会将运行结果和错误信息打包到`Artifacts`，可自行下载查看；
-* 如果配置了Server酱，运行结果会推送到微信；
+* 如果配置了bark，运行结果会推送到bark；
 
 ## 获取京东cookie
 
@@ -42,11 +42,10 @@
 * 登录[领京豆](https://bean.m.jd.com/)；
 * 点击`JDCookie`即可拷贝京东cookie；
 
-## 获取Server酱SCKEY
+## 获取bark
 
-* github 授权登录[Server酱](http://sc.ftqq.com/3.version)官网；
-* 菜单栏`微信推送`扫描绑定微信；
-* 菜单栏`发送消息`拷贝SCKEY；
+* `ios,android`下载`bark`
+* 将链接添加到`PUSH_KEY` (注意 要以/结尾)
 
 
 
@@ -60,4 +59,7 @@
 ## 参考项目
 * [NobyDa/Script/JD-DailyBonus](https://github.com/NobyDa/Script/blob/master/JD-DailyBonus/JD_DailyBonus.js)
 * [ruicky/jd-sign-bot](https://github.com/ruicky/jd_sign_bot)
-* [jerrykuku/luci-app-jd-dailybonus](https://github.com/jerrykuku/luci-app-jd-dailybonus)
+* [jerrykuku/luci-app-jd-dailybonus](https://github.com/jerrykuku/luci-app-jd-dailybonus)  
+* [Finb/Bark](https://github.com/Finb/Bark)
+
+
