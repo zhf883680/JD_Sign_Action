@@ -85,30 +85,16 @@ function sendNotificationIfNeed() {
   let arr = desp.match(regExpCheckCookie);
   if (arr != undefined && arr.length > 20) {
     text = "京东签到_" + dateFormat() + "_Cookie失效!";
-
-    const options = {
-      uri: push_key,
-      form: {
-        title:text,
-        body:desc
-      },
-      json: true,
-      method: 'POST'
-    }
-
-    rp.post(options).then(res => {
-      const code = res['errno'];
-      if (code == 200) {
+    rp(push_key+text, function (error, response) {
+    if (!error && response.statusCode == 200) {
         console.log("通知发送成功，任务结束！")
-      } else {
+      }
+      else{
         console.log(res);
         console.log("通知发送失败，任务中断！")
         fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
       }
-    }).catch((err) => {
-      console.log("通知发送失败，任务中断！")
-      fs.writeFileSync(error_path, err, 'utf8')
-    })
+    });
   } else {
     console.log("签到成功，任务结束！")
   }
@@ -118,29 +104,16 @@ function sendNotificationIfNeed() {
 function sendErrorMsg(desc) {
 
   //let SCKEY = push_key.replace(/[\r\n]/g, "");
-  const options = {
-    uri: push_key,
-    form: {
-      title: '脚本执行失败了',
-      body:desc
-    },
-    json: true,
-    method: 'POST'
-  }
-
-  rp.post(options).then(res => {
-    const code = res['errno'];
-    if (code == 200) {
-      console.log("通知发送成功，任务结束！")
-    } else {
-      console.log(res);
-      console.log("通知发送失败，任务中断！")
-      fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
-    }
-  }).catch((err) => {
-    console.log("通知发送失败，任务中断！")
-    fs.writeFileSync(error_path, err, 'utf8')
-  })
+  rp(push_key+'脚本执行失败了'+desc, function (error, response) {
+    if (!error && response.statusCode == 200) {
+        console.log("通知发送成功，任务结束！")
+      }
+      else{
+        console.log(res);
+        console.log("通知发送失败，任务中断！")
+        fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
+      }
+    });
 }
 
 function main() {
